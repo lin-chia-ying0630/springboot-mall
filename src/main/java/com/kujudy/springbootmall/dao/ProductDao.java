@@ -1,6 +1,7 @@
 package com.kujudy.springbootmall.dao;
 
 import com.kujudy.springbootmall.constant.ProductCategory;
+import com.kujudy.springbootmall.dto.ProductQueryParams;
 import com.kujudy.springbootmall.dto.ProductRequest;
 import com.kujudy.springbootmall.model.Product;
 
@@ -14,5 +15,5 @@ public interface ProductDao {
 
     void deleteProduct(Integer productId);
 
-    List<Product> getProducts(ProductCategory category, String search);
+    List<Product> getProducts(ProductQueryParams productQueryParams);
 }
