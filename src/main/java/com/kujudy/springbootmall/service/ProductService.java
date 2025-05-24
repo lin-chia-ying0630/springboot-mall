@@ -1,5 +1,6 @@
 package com.kujudy.springbootmall.service;
 
+import com.kujudy.springbootmall.constant.ProductCategory;
 import com.kujudy.springbootmall.dto.ProductRequest;
 import com.kujudy.springbootmall.model.Product;
 import jakarta.validation.Valid;
@@ -7,8 +8,6 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 public interface ProductService {
-
-    List<Product> getProducts();
 
     Product getProductById(Integer productId);
 
@@ -18,5 +17,5 @@ public interface ProductService {
 
     void deleteProductId(Integer productId);
 
-
+    List<Product> getProducts(ProductCategory category, String search);
 }

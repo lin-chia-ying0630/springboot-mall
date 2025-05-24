@@ -1,5 +1,6 @@
 package com.kujudy.springbootmall.service.Impl;
 
+import com.kujudy.springbootmall.constant.ProductCategory;
 import com.kujudy.springbootmall.dao.Impl.ProductDaoImpl;
 import com.kujudy.springbootmall.dao.ProductDao;
 import com.kujudy.springbootmall.dto.ProductRequest;
@@ -16,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts() {
-        return productDao.getProducts();
+    public List<Product> getProducts(ProductCategory category,String search) {
+        return productDao.getProducts(category,search);
     }
 
     @Override
