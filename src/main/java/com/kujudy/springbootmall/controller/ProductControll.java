@@ -1,14 +1,15 @@
 package com.kujudy.springbootmall.controller;
 
+
 import com.kujudy.springbootmall.constant.ProductCategory;
 import com.kujudy.springbootmall.dto.ProductQueryParams;
 import com.kujudy.springbootmall.dto.ProductRequest;
 import com.kujudy.springbootmall.model.Product;
 import com.kujudy.springbootmall.service.ProductService;
+import com.kujudy.springbootmall.unit.Page;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jdk.jfr.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Locale;
 
 @Validated
 @RestController
@@ -25,9 +25,9 @@ public class ProductControll {
     @Autowired
     private ProductService productService;
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(
+    public ResponseEntity<Page<Product>> getProducts(
             //查詢條件filiter
-            @RequestParam(required = false) ProductCategory  category,
+            @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search,
             //排序 sort
             @RequestParam(defaultValue = "create_date") String orderBy,
@@ -44,7 +44,12 @@ public class ProductControll {
         productQueryParams.setLimit(limit);
         productQueryParams.setOffset(offset);
         List<Product> productList= productService.getProducts(productQueryParams);
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+        Page<Product> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(null);
+        page.setResults(productList);
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
     @GetMapping("/products/{productId}")
