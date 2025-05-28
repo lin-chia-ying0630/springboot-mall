@@ -22,11 +22,24 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserById(Integer userId) {
-        String sql="select * from user where user_id=:userId";
+        String sql="select user_id,email,password,created_date,last_modified_date from user where user_id=:userId";
         Map<String,Object> map=new HashMap<String,Object>();
         map.put("userId",userId);
         List<User> userlist =namedParameterJdbcTemplate.query(sql,map,new UserRowMapper());
 
+        if (userlist.size()>0){
+            return userlist.get(0);
+        }else{
+            return null;
+        }
+    }
+    @Override
+    public User getUserByEmail(String email) {
+        String sql="select user_id,email,password,created_date,last_modified_date from user where email=:email";
+        Map<String,Object> map=new HashMap<String,Object>();
+
+        map.put("email",email);
+        List<User> userlist =namedParameterJdbcTemplate.query(sql,map,new UserRowMapper());
         if (userlist.size()>0){
             return userlist.get(0);
         }else{
@@ -50,6 +63,8 @@ public class UserDaoImpl implements UserDao {
 
         return keyHolder.getKey().intValue();
     }
+
+
 
 
 }
