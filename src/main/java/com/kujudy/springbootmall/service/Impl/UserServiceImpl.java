@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
@@ -24,9 +25,12 @@ public class UserServiceImpl implements UserService {
         //查詢email是否存在
         User user=userDao.getUserByEmail(userRegisterRequest.getEmail());
         if(user!=null){
-            log.warn("該EMAIL被{}使用{}",userRegisterRequest.getEmail(),"Judy");
+            log.warn("該EMAIL被{}使用{}",userRegisterRequest.getEmail(),"  ");
             throw  new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+        //Md5
+        String hashPassword = DigestUtils.md5DigestAsHex(userRegisterRequest.getPassword().getBytes());
+        userRegisterRequest.setPassword(hashPassword);
         return userDao.createUser(userRegisterRequest);
     }
 
@@ -38,16 +42,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(UserLoginRequest userLoginRequest) {
         User user=userDao.getUserByEmail(userLoginRequest.getEmail());
+        //檢查USER是否存在
         if(user==null){
-            log.warn("該EMAIL被{} 尚未註冊{}",userLoginRequest.getEmail(),"Judy");
+            log.warn("該EMAIL被{} 尚未註冊{}",userLoginRequest.getEmail(),"   ");
             throw  new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        if (user.getPassword().equals(userLoginRequest.getPassword())) {
+        //比較密碼
+        String hsahPassword =DigestUtils.md5DigestAsHex(userLoginRequest.getPassword().getBytes());
+        if (user.getPassword().equals(hsahPassword)) {
             return user;
         }else{
             log.warn("該EMAIL{}不正確",userLoginRequest.getEmail());
             throw  new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        //return userDao.login(userLoginRequest);
+
     }
 }
