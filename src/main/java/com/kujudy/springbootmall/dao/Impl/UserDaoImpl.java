@@ -1,6 +1,7 @@
 package com.kujudy.springbootmall.dao.Impl;
 
 import com.kujudy.springbootmall.dao.UserDao;
+import com.kujudy.springbootmall.dto.UserLoginRequest;
 import com.kujudy.springbootmall.dto.UserRegisterRequest;
 import com.kujudy.springbootmall.model.User;
 import com.kujudy.springbootmall.rowmapper.UserRowMapper;
@@ -46,6 +47,7 @@ public class UserDaoImpl implements UserDao {
             return null;
         }
     }
+
 
     @Override
     public Integer createUser(UserRegisterRequest userRegisterRequest) {

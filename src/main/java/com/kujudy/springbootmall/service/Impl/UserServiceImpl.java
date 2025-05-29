@@ -1,6 +1,7 @@
 package com.kujudy.springbootmall.service.Impl;
 
 import com.kujudy.springbootmall.dao.UserDao;
+import com.kujudy.springbootmall.dto.UserLoginRequest;
 import com.kujudy.springbootmall.dto.UserRegisterRequest;
 import com.kujudy.springbootmall.model.User;
 import com.kujudy.springbootmall.service.UserService;
@@ -32,5 +33,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Integer userId) {
         return userDao.getUserById(userId);
+    }
+
+    @Override
+    public User login(UserLoginRequest userLoginRequest) {
+        User user=userDao.getUserByEmail(userLoginRequest.getEmail());
+        if(user==null){
+            log.warn("該EMAIL被{} 尚未註冊{}",userLoginRequest.getEmail(),"Judy");
+            throw  new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        if (user.getPassword().equals(userLoginRequest.getPassword())) {
+            return user;
+        }else{
+            log.warn("該EMAIL{}不正確",userLoginRequest.getEmail());
+            throw  new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        //return userDao.login(userLoginRequest);
     }
 }
