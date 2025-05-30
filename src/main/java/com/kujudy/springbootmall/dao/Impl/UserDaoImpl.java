@@ -1,13 +1,10 @@
 package com.kujudy.springbootmall.dao.Impl;
 
 import com.kujudy.springbootmall.dao.UserDao;
-import com.kujudy.springbootmall.dto.UserLoginRequest;
 import com.kujudy.springbootmall.dto.UserRegisterRequest;
 import com.kujudy.springbootmall.model.User;
 import com.kujudy.springbootmall.rowmapper.UserRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowCallbackHandler;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -65,8 +62,5 @@ public class UserDaoImpl implements UserDao {
 
         return keyHolder.getKey().intValue();
     }
-
-
-
 
 }
