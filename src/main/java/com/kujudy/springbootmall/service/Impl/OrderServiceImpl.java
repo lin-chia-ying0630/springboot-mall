@@ -5,6 +5,7 @@ import com.kujudy.springbootmall.dao.ProductDao;
 import com.kujudy.springbootmall.dao.UserDao;
 import com.kujudy.springbootmall.dto.BuyItem;
 import com.kujudy.springbootmall.dto.CreateOrderRequest;
+import com.kujudy.springbootmall.dto.OrderQueryParms;
 import com.kujudy.springbootmall.model.Order;
 import com.kujudy.springbootmall.model.OrderItem;
 import com.kujudy.springbootmall.model.Product;
@@ -81,5 +82,20 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItem> orderItemlist = orderDao.getOrderItemsByOrderId(orderId);
         order.setOrderItemlist(orderItemlist);
         return order;
+    }
+
+    @Override
+    public List<Order> getOrders(OrderQueryParms orderQueryParms) {
+        List<Order> orderList = orderDao.getOrders(orderQueryParms);
+        for (Order order : orderList) {
+            List<OrderItem> orderItemlist = orderDao.getOrderItemsByOrderId(order.getOrderId());
+            order.setOrderItemlist(orderItemlist);
+        }
+        return orderList;
+    }
+
+    @Override
+    public Integer countOrder(OrderQueryParms orderQueryParms) {
+        return orderDao.countOrder(orderQueryParms);
     }
 }

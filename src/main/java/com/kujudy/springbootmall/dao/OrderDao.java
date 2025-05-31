@@ -1,5 +1,6 @@
 package com.kujudy.springbootmall.dao;
 
+import com.kujudy.springbootmall.dto.OrderQueryParms;
 import com.kujudy.springbootmall.model.Order;
 import com.kujudy.springbootmall.model.OrderItem;
 
@@ -16,4 +17,8 @@ public interface OrderDao {
     Order getOrderById(Integer orderId);
 
     List<OrderItem> getOrderItemsByOrderId(Integer orderId);
+
+    List<Order> getOrders(OrderQueryParms orderQueryParms);
+
+    Integer countOrder(OrderQueryParms orderQueryParms);
 }
